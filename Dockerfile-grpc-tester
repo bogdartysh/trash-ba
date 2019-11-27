@@ -1,0 +1,17 @@
+FROM python:3.6
+
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir requests
+RUN pip install --no-cache-dir grpcio
+RUN pip install --no-cache-dir grpcio-tools
+
+ADD app/grpc_tester.py app/grpc_tester.py
+ADD app/analysis_pb2.py app/analysis_pb2.py
+ADD app/analysis_pb2_grpc.py app/analysis_pb2_grpc.py
+
+
+
+WORKDIR /app
+CMD ["python3", "grpc_tester.py"]
+
+
