@@ -6,6 +6,9 @@ services:
       dockerfile: Dockerfile-grpc-server
     ports:
        - "80:80"
+    depends_on:
+      - presidio-api
+      - presidio-anonymizer
   redis:
     image: "redis"
     ports:
@@ -31,7 +34,10 @@ services:
   presidio-api:
     image: "mcr.microsoft.com/presidio-api"
     environment:
-      - GRPC_PORT=8080
+      - WEB_PORT=8080
+      - ANALYZER_SVC_ADDRESS=presidio-analyzer:3000
+      - ANONYMIZER_SVC_ADDRESS=presidio-anonymizer:3001
+      - RECOGNIZERS_STORE_SVC_ADDRESS=presidio-recognizers-store:3004
     ports:
       - "8080:8080"
   test:
