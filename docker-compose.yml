@@ -8,7 +8,6 @@ services:
        - "80:80"
     depends_on:
       - presidio-api
-      - presidio-anonymizer
   redis:
     image: "redis"
     ports:
@@ -19,18 +18,24 @@ services:
       - GRPC_PORT=3000
     ports:
       - "3000:3000"
+    depends_on:
+      - presidio-recognizers-store
   presidio-anonymizer:
    image: "mcr.microsoft.com/presidio-anonymizer"
    environment:
      - GRPC_PORT=3001
    ports:
      - "3001:3001"
+   depends_on:
+      - presidio-recognizers-store
   presidio-recognizers-store:
     image: "mcr.microsoft.com/presidio-recognizers-store"
     environment:
       - GRPC_PORT=3004
     ports:
       - "3004:3004"
+    depends_on:
+      - redis
   presidio-api:
     image: "mcr.microsoft.com/presidio-api"
     environment:
@@ -40,6 +45,9 @@ services:
       - RECOGNIZERS_STORE_SVC_ADDRESS=presidio-recognizers-store:3004
     ports:
       - "8080:8080"
+    depends_on:
+      - presidio-analyzer
+      - presidio-anonymizer
   test:
     build:
       context: .

@@ -3,7 +3,7 @@ FROM python:3.6
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir  grpcio
 RUN pip install --no-cache-dir  grpcio-tools
-#RUN pip install --no-cache-dir  Flask
+RUN pip install --no-cache-dir  requests
 
 ADD app/grpc_server.py /app/grpc_server.py
 ADD app/analysis_pb2.py app/analysis_pb2.py
