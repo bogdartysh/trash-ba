@@ -42,6 +42,6 @@ python3 -m grpc_tools.protoc -I protos --python_out=. --grpc_python_out=. protos
 1. move to Java:-)
 2. healthcheck to be improved, there is a chain thus it could be differnet
 3. the server hardly checks any errors, to be improved
-4. folder structure is OK only for Profe of concept
+4. folder structure/code style/docs is OK only for POC
 5. add Prometheus plugin (or other) to get stats / gather logs
 
