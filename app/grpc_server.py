@@ -1,5 +1,9 @@
 from concurrent import futures
-import requests
+from io import BytesIO
+
+import pycurl
+import json
+
 
 import grpc
 
@@ -12,19 +16,22 @@ anonymizetemplateid = 'trashbaanonymizer'
 analyzetemplateid = 'trashbaanalyzer'
 
 
+def getResp(msg):
+      data = BytesIO()
+      c = pycurl.Curl()
+      c.setopt(c.URL, url2api + 'projects/' + apiproject + '/anonymize')
+      c.setopt(c.HTTPHEADER, ['Content-Type: application/json','Accept: */*'])
+      c.setopt(c.WRITEFUNCTION, data.write)
+      c.setopt(c.POSTFIELDS, '{"text":"' + msg +'", "AnalyzeTemplateId":"' + analyzetemplateid + '", "AnonymizeTemplateId":"' + anonymizetemplateid +'"}')
+      c.perform()
+      return json.loads(data.getvalue())['text']
+
 class AnalysisServiceServicer(analysis_pb2_grpc.AnalysisServiceServicer):
   def Analyze(self, req, cntxt):
-      txt =  requests.post (url2api + 'projects/' + apiproject + '/anonymize', json='{"text":"' + req.text +'", "AnalyzeTemplateId":"' + analyzetemplateid + '", "AnonymizeTemplateId":"' + anonymizetemplateid +'"}').text
-      resp = analysis_pb2.AnalysisReply(text = txt)
-      return resp
+      return analysis_pb2.AnalysisReply(text = getResp(req.text))
 
 if __name__ == '__main__':
-  
-  requests.post (url2api + 'templates/' + apiproject + '/analyze/' + analyzetemplateid, json='{"allFields":true}')
-  requests.post (url2api + 'templates/' + apiproject + '/anonymize/' + anonymizetemplateid, json='{"fieldTypeTransformations":[{"fields":[{"name":"PHONE_NUMBER"}],"transformation":{"replaceValue":{"newValue":"phone-number"}}},{"fields":[{"name":"CREDIT_CARD"}],"transformation":{"newValue":"credit-card"}}]}')
-
-
-  server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+  server = grpc.server(futures.ThreadPoolExecutor(max_workers=9))
   analysis_pb2_grpc.add_AnalysisServiceServicer_to_server(AnalysisServiceServicer(), server)
   server.add_insecure_port('[::]:80')
   server.start()
