@@ -5,7 +5,6 @@ from io import BytesIO
 
 import pycurl
 import json
-import sys
 
 import grpc
 
@@ -37,7 +36,6 @@ class AnalysisServiceServicer(analysis_pb2_grpc.AnalysisServiceServicer):
       return analysis_pb2.AnalysisReply(text = getResp(req.text))
 
 if __name__ == '__main__':
-  sys.stdout = open("/var/log/grpc_server.log", "w")
   server = grpc.server(futures.ThreadPoolExecutor(max_workers=9))
   analysis_pb2_grpc.add_AnalysisServiceServicer_to_server(AnalysisServiceServicer(), server)
   server.add_insecure_port('[::]:80')
