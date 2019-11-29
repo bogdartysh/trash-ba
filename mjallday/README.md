@@ -21,8 +21,11 @@ message AnalysisReply {
 - Add Microsoft Presidio to your `docker-compose.yaml`
 - Connect your GRPC service to call Presidio and return the response
 
-= HOWTO = 
+= HOWTO =
+
+ 
 commands needed:
+
 ```
 docker-compose build
 docker-compose up -d
