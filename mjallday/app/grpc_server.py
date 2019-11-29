@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+
 from concurrent import futures
 from io import BytesIO
 
@@ -24,6 +26,7 @@ def getResp(msg):
       c.setopt(c.WRITEFUNCTION, data.write)
       c.setopt(c.POSTFIELDS, '{"text":"' + msg +'", "AnalyzeTemplateId":"' + analyzetemplateid + '", "AnonymizeTemplateId":"' + anonymizetemplateid +'"}')
       c.perform()
+      print("for: ", msg, " got: ", data.getvalue())
       return json.loads(data.getvalue())['text']
 
 class AnalysisServiceServicer(analysis_pb2_grpc.AnalysisServiceServicer):
