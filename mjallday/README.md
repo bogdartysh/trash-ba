@@ -31,3 +31,17 @@ docker-compose build
 docker-compose up -d
 docker-compose up test
 ```
+
+for new protos file:
+
+```
+python3 -m grpc_tools.protoc -I protos --python_out=. --grpc_python_out=. protos/analysis.proto
+```
+
+# for Production-ready
+1. move to Java:-)
+2. healthcheck to be improved, there is a chain thus it could be differnet
+3. the server hardly checks any errors, to be improved
+4. folder structure is OK only for Profe of concept
+5. add Prometheus plugin (or other) to get stats / gather logs
+
