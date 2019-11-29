@@ -5,7 +5,7 @@ from io import BytesIO
 
 import pycurl
 import json
-
+import sys
 
 import grpc
 
@@ -16,13 +16,16 @@ url2api = 'http://presidio-api:8080/api/v1/'
 apiproject = '1'
 anonymizetemplateid = 'trashbaanonymizer'
 analyzetemplateid = 'trashbaanalyzer'
+headers = ['Content-Type: application/json','Accept: */*']
+urlToAnonymizer = url2api + 'projects/' + apiproject + '/anonymize'
 
 
 def getResp(msg):
+      print ("handling ", msg)
       data = BytesIO()
       c = pycurl.Curl()
-      c.setopt(c.URL, url2api + 'projects/' + apiproject + '/anonymize')
-      c.setopt(c.HTTPHEADER, ['Content-Type: application/json','Accept: */*'])
+      c.setopt(c.URL, urlToAnonymizer)
+      c.setopt(c.HTTPHEADER, headers)
       c.setopt(c.WRITEFUNCTION, data.write)
       c.setopt(c.POSTFIELDS, '{"text":"' + msg +'", "AnalyzeTemplateId":"' + analyzetemplateid + '", "AnonymizeTemplateId":"' + anonymizetemplateid +'"}')
       c.perform()
@@ -34,6 +37,7 @@ class AnalysisServiceServicer(analysis_pb2_grpc.AnalysisServiceServicer):
       return analysis_pb2.AnalysisReply(text = getResp(req.text))
 
 if __name__ == '__main__':
+  sys.stdout = open("/var/log/grpc_server.log", "w")
   server = grpc.server(futures.ThreadPoolExecutor(max_workers=9))
   analysis_pb2_grpc.add_AnalysisServiceServicer_to_server(AnalysisServiceServicer(), server)
   server.add_insecure_port('[::]:80')

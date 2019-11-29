@@ -5,7 +5,7 @@ curl -H "Content-Type: application/json"  -X POST -d '{"text":"We met yesterday 
 curl  -H "Content-Type: application/json" -v -X POST -d '{"text":"We met yesterday morning in Seattle and his phone number is (212) 555 1234", "AnalyzeTemplateId":"trashbaanalyzer", "AnonymizeTemplateId": "trashbaanonymizer"  }'  http://presidio-api:8080/api/v1/projects/1/anonymize
 
 cd /app
-python grpc_server.py > /var/log/grpc_server.log
+python grpc_server.py
 
 
 
