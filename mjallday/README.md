@@ -24,7 +24,7 @@ message AnalysisReply {
 ## HOWTO 
 
  
-commands needed:
+commands needed to start:
 
 ```
 docker-compose build
@@ -40,8 +40,11 @@ python3 -m grpc_tools.protoc -I protos --python_out=. --grpc_python_out=. protos
 
 # for Production-ready
 1. move to Java:-)
-2. healthcheck to be improved, there is a chain thus it could be differnet
+2. healthcheck to be added, current entry point is ok fo POC
 3. the server hardly checks any errors, to be improved
 4. folder structure/code style/docs is OK only for POC
-5. add Prometheus plugin (or other) to get stats / gather logs
+5. improve logging and monitroing (add Prometheus or other)
+6. number of threads on server is to be adjustable (in Java JMX)
+7. all settings are to be passed as env. variables from docker-compose, not hardcoded in scripts
+
 
