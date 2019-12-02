@@ -8,12 +8,6 @@ services:
       - "80:80"
     depends_on:
       - presidio-api
-    healthcheck:
-      test: curl -sS http://presidio-api:8080 || echo 1
-      interval: 5s
-      timeout: 10s
-      retries: 3
-    restart: on-failure
   redis:
     image: "redis"
     ports:
@@ -26,12 +20,6 @@ services:
       - "3000:3000"
     depends_on:
       - presidio-recognizers-store
-    healthcheck:
-      test: curl -sS http://presidio-recognizer-store:3004 || echo 1
-      interval: 5s
-      timeout: 10s
-      retries: 3
-    restart: on-failure
   presidio-anonymizer:
     image: "mcr.microsoft.com/presidio-anonymizer"
     environment:
@@ -40,12 +28,6 @@ services:
       - "3001:3001"
     depends_on:
       - presidio-recognizers-store
-    healthcheck:
-      test: curl -sS http://presidio-analyzer:3000 || echo 1
-      interval: 5s
-      timeout: 10s
-      retries: 3
-    restart: on-failure
   presidio-recognizers-store:
      image: "mcr.microsoft.com/presidio-recognizers-store"
      environment:
@@ -54,12 +36,6 @@ services:
        - "3004:3004"
      depends_on:
        - redis
-     healthcheck:
-       test: curl -sS http://redis:6379 || echo 1
-       interval: 5s
-       timeout: 10s
-       retries: 3
-     restart: on-failure
   presidio-api:
      image: "mcr.microsoft.com/presidio-api"
      environment:
@@ -72,12 +48,6 @@ services:
      depends_on:
        - presidio-analyzer
        - presidio-anonymizer
-     healthcheck:
-       test: curl -sS http://presidio-anonymizer:3001 || echo 1
-       interval: 5s
-       timeout: 10s
-       retries: 3
-     restart: on-failure
   test:
      build:
        context: .

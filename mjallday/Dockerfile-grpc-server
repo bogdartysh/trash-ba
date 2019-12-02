@@ -9,10 +9,9 @@ RUN pip install --no-cache-dir  requests
 ADD app/grpc_server.py /app/grpc_server.py
 ADD app/analysis_pb2.py app/analysis_pb2.py
 ADD app/analysis_pb2_grpc.py app/analysis_pb2_grpc.py
-
-COPY app/docker-entrypoint.sh /usr/local/bin/
+COPY app/docker_entrypoint_server.sh /usr/local/bin/
 
 EXPOSE 80
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["docker_entrypoint_server.sh"]
 
