@@ -27,8 +27,6 @@ message AnalysisReply {
 commands needed to start:
 
 ```
-docker-compose build
-docker-compose up -d
 docker-compose up test
 ```
 
