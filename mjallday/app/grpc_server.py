@@ -12,24 +12,24 @@ import analysis_pb2
 import analysis_pb2_grpc
 
 maxWorkers = 9
-url2api = 'http://presidio-api:8080/api/v1/'
-apiproject = '1'
-anonymizetemplateid = 'trashbaanonymizer'
-analyzetemplateid = 'trashbaanalyzer'
+url_api = 'http://presidio-api:8080/api/v1/'
+api_project = '1'
+anonymize_templateid = 'trashbaanonymizer'
+analyze_templateid = 'trashbaanalyzer'
 headers = ['Content-Type: application/json', 'Accept: */*']
-urlToAnonymizer = url2api + 'projects/' + apiproject + '/anonymize'
+url_anonymizer = url_api + 'projects/' + api_project + '/anonymize'
 
 
-def getResp(msg):
+def get_presido_anonymizer_response(msg):
     print ('handling ', msg)
     data = BytesIO()
     c = pycurl.Curl()
-    c.setopt(c.URL, urlToAnonymizer)
+    c.setopt(c.URL, url_anonymizer)
     c.setopt(c.HTTPHEADER, headers)
     c.setopt(c.WRITEFUNCTION, data.write)
     c.setopt(c.POSTFIELDS, '{"text":"' + msg
-             + '", "AnalyzeTemplateId":"' + analyzetemplateid
-             + '", "AnonymizeTemplateId":"' + anonymizetemplateid + '"}'
+             + '", "AnalyzeTemplateId":"' + analyze_templateid
+             + '", "AnonymizeTemplateId":"' + anonymize_templateid + '"}'
              )
     c.perform()
     print ('for: ', msg, ' got: ', data.getvalue())
@@ -37,9 +37,8 @@ def getResp(msg):
 
 
 class AnalysisServiceServicer(analysis_pb2_grpc.AnalysisServiceServicer):
-
     def Analyze(self, req, cntxt):
-        return analysis_pb2.AnalysisReply(text=getResp(req.text))
+        return analysis_pb2.AnalysisReply(text=get_presido_anonymizer_response(req.text))
 
 
 if __name__ == '__main__':
