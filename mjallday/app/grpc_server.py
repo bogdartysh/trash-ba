@@ -11,25 +11,25 @@ import grpc
 import analysis_pb2
 import analysis_pb2_grpc
 
-maxWorkers = 9
-url_api = 'http://presidio-api:8080/api/v1/'
-api_project = '1'
-anonymize_templateid = 'trashbaanonymizer'
-analyze_templateid = 'trashbaanalyzer'
-headers = ['Content-Type: application/json', 'Accept: */*']
-url_anonymizer = url_api + 'projects/' + api_project + '/anonymize'
+MAX_WORKERS = 9
+URL_API = 'http://presidio-api:8080/api/v1/'
+API_PROJECT = '1'
+ANONYMIZE_TEMPLATEID = 'trashbaanonymizer'
+ANALYZE_TEMPLATEID = 'trashbaanalyzer'
+HEADERS = ['Content-Type: application/json', 'Accept: */*']
+URL_ANONYMIZER = URL_API + 'projects/' + API_PROJECT + '/anonymize'
 
 
 def get_presido_anonymizer_response(msg):
     print ('handling ', msg)
     data = BytesIO()
     c = pycurl.Curl()
-    c.setopt(c.URL, url_anonymizer)
-    c.setopt(c.HTTPHEADER, headers)
+    c.setopt(c.URL, URL_ANONYMIZER)
+    c.setopt(c.HTTPHEADER, HEADERS)
     c.setopt(c.WRITEFUNCTION, data.write)
     c.setopt(c.POSTFIELDS, '{"text":"' + msg
-             + '", "AnalyzeTemplateId":"' + analyze_templateid
-             + '", "AnonymizeTemplateId":"' + anonymize_templateid + '"}'
+             + '", "AnalyzeTemplateId":"' + ANALYZE_TEMPLATEID
+             + '", "AnonymizeTemplateId":"' + ANONYMIZE_TEMPLATEID + '"}'
              )
     c.perform()
     print ('for: ', msg, ' got: ', data.getvalue())
@@ -42,7 +42,7 @@ class AnalysisServiceServicer(analysis_pb2_grpc.AnalysisServiceServicer):
 
 
 if __name__ == '__main__':
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=maxWorkers))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers = MAX_WORKERS))
     analysis_pb2_grpc.add_AnalysisServiceServicer_to_server(AnalysisServiceServicer(),
             server)
     server.add_insecure_port('[::]:80')
