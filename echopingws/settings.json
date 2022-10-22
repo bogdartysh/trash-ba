@@ -1,1 +1,22 @@
-{"hosts": [{"name": "google-dns", "ip": "8.8.8.8"}, {"name": "localhost", "ip": "127.0.0.1"} , {"name": "gateway", "ip": "192.168.1.1"}], "port": "18898", "binding":  "192.168.1.162"}
+{
+  "hosts": [
+    {
+      "name": "google-dns",
+      "ip": "8.8.8.8"
+    },
+    {
+      "name": "localhost",
+      "ip": "127.0.0.1"
+    },
+    {
+      "name": "gateway",
+      "ip": "192.168.1.1"
+    }
+  ],
+  "port": "18898",
+  "binding": "192.168.1.162",
+  "allowedips": [
+    "192.168.1.162",
+    "127.0.0.1"
+  ]
+}
