@@ -1,4 +1,4 @@
-import sys, os, json
+import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 settings = json.load(open('settings.json'))
