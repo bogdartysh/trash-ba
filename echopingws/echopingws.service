@@ -1,3 +1,9 @@
+[Unit]
+Description=ping web service
+
+[Service]
+Restart=always
+User=root
 WorkingDirectory=/opt/echopingws
 ExecStart=/usr/bin/python3 echopingws.py
 # kill if Out of memory with : 50% of memory should be left for other processes
