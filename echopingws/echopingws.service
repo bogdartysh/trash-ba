@@ -1,0 +1,14 @@
+WorkingDirectory=/opt/echopingws
+ExecStart=/usr/bin/python3 echopingws.py
+# kill if Out of memory with : 50% of memory should be left for other processes
+OOMScoreAdjust=500
+# service is not allowed to use any devs but random etc
+PrivateDevices=true
+# service is not allowed to modify OS
+ProtectSystem=true
+# service is not allowed to modify home directory
+ProtectHome=true
+
+
+[Install]
+WantedBy=multi-user.target
