@@ -1,4 +1,4 @@
-import json
+import json, os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 settings = json.load(open('settings.json'))
@@ -9,8 +9,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         for a in self.client_address:
             if str(a) in settings["allowedips"] :
                 isAllowed = True
-        if not isAllowed:
+        if isAllowed != True:
             self.send_response(403)
+            self.wfile.write(str(self.client_address).encode())
             return
         self.send_response(200)
         self.end_headers()
@@ -27,3 +28,4 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
 httpd = HTTPServer((settings['binding'], int(settings['port'])), SimpleHTTPRequestHandler)
 httpd.serve_forever()
+
