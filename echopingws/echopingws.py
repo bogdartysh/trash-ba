@@ -2,10 +2,9 @@ import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import os
 import json
-print ('Number of arguments:', len(sys.argv), 'arguments.')
-print ('Argument List:', str(sys.argv))
-
-HOSTS = json.load(open('settings.json'))
+settings = json.load(open('settings.json'))
+print ('Argument List:', settings)
+HOSTS = settings['hosts']
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -22,5 +21,5 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 print(e)
 
 
-httpd = HTTPServer(('', int(sys.argv[1])), SimpleHTTPRequestHandler)
+httpd = HTTPServer((settings['binding'], int(settings['port'])), SimpleHTTPRequestHandler)
 httpd.serve_forever()
