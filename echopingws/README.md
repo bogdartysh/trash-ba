@@ -1,5 +1,12 @@
 # ABOUT
 simple example of web server to reply with ping results to selective URI
+
+## videos 
+in Ukrainian: 
+
+[![how-to video (in Ukrainian)](https://img.youtube.com/vi/GBfXyyZU-C4/0.jpg)](https://www.youtube.com/watch?v=GBfXyyZU-C4)
+
+
 # HOWTO 
 ## INSTALL
 ```
@@ -14,6 +21,7 @@ sudo systemctl daemon-reload
 
 ## CHECK STATUS
 ```sudo service echopingws status```
+
 to check logs
 ``` journalctl -u echopingws```
 
