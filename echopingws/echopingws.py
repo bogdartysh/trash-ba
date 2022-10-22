@@ -1,16 +1,20 @@
-import sys
+import sys, os, json
 from http.server import HTTPServer, BaseHTTPRequestHandler
-import os
-import json
+
 settings = json.load(open('settings.json'))
-print ('Argument List:', settings)
-HOSTS = settings['hosts']
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
+        isAllowed = False
+        for a in self.client_address:
+            if str(a) in settings["allowedips"] :
+                isAllowed = True
+        if not isAllowed:
+            self.send_response(403)
+            return
         self.send_response(200)
         self.end_headers()
-        for s in HOSTS :
+        for s in settings['hosts'] :
             try:
                 stream = os.popen('ping -c 3 ' + s['ip'])
                 output = stream.read()
