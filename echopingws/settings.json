@@ -1,1 +1,1 @@
-[{"name": "google-dns", "ip": "8.8.8.8"}, {"name": "localhost", "ip": "127.0.0.1"} , {"name": "gateway", "ip": "192.168.1.1"}, {"name": "example.com", "ip": "example.com"}, {"name":  "rus", "ip": "habr.ru"}]
+{"hosts": [{"name": "google-dns", "ip": "8.8.8.8"}, {"name": "localhost", "ip": "127.0.0.1"} , {"name": "gateway", "ip": "192.168.1.1"}], "port": "18898", "binding":  "192.168.1.162"}
