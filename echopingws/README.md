@@ -14,6 +14,8 @@ mkdir /opt/echopingws
 cp echopingws.py /opt/echopingws
 cp settings.json /opt/echopingws
 
+sudo cp echopingws.service /etc/systemd/system
+
 sudo systemctl daemon-reload 
 ```
 ## Start
